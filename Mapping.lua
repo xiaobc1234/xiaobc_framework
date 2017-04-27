@@ -179,7 +179,7 @@ function Mapping:Run()
                 break
             end
             --检查不到任何页面,则向上级索引，或者说 之前已经走过这个流程，就走下面的一个索引
-            if i == #self.pages then
+            if i == #self.pages and self.prev then
                 self.prev:Run()
             end
         end
