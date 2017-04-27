@@ -1,0 +1,25 @@
+{
+   "style" : "default",
+   "config" : "save_自动副本全.dat",
+   "width" : 540,
+   "height" : 460,
+   "cancelname" : "取消",
+   "okname" : "确定",
+   "views" : [
+      {
+         "align" : "center",
+         "color" : "0,0,0",
+         "size" : "20",
+         "text" : "攻城狮脚本",
+         "type" : "Label"
+      },
+      {
+         "id" : "device",
+         "list" : "模拟器,手机",
+         "select" : "0",
+         "size" : "30",
+         "type" : "RadioGroup",
+         "orientation" : "horizontal"
+      }
+   ]
+}

@@ -1,2 +1,0 @@
-# xiaobc_framework
-xx_xiaobc_framework
