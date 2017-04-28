@@ -1,8 +1,19 @@
 local Public = {}
 
+--搜索点击
+function Public:searchTap(v)
+	if v then
+		x, y = findMultiColorInRegionFuzzy(v[1],v[2],v[3],v[4],v[5],v[6],v[7])
+		if x>-1 then
+			Public:tap(x,y)
+		end
+	end
+end
 
 function Public:check(v)
+--sysLog("vvvvvv"..v[1]..","..v[2]..","..v[3]..","..v[4]..","..v[5]..","..v[6]..","..v[7])
 	x, y = findMultiColorInRegionFuzzy(v[1],v[2],v[3],v[4],v[5],v[6],v[7])
+--	sysLog("vvvvv:"..x.."-"..y)
 	if x > -1 then
 		return 1
 	else 
@@ -11,12 +22,16 @@ function Public:check(v)
 end
 
 function Public:click(t)
- 	Public:tap(t[1],t[2])
+	if t then
+		Public:tap(t[1],t[2])
+	end
 end
 
 function Public:finish()
 	-- 不用调用了
 end
+
+
 
 function Public:sleep(num)
   -- 不用调用了
