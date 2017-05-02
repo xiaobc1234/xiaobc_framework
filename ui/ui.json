@@ -8,15 +8,62 @@
 	"views": [{
 		"align": "center",
 		"color": "0,0,0",
-		"size": "20",
+		"size": "30",
 		"text": "攻城狮脚本",
 		"type": "Label"
 	}, {
 		"id": "auto",
-		"list": "自动副本任务全",
+		"list": "每日必做(全)",
 		"select": "0",
-		"size": "30",
-		"type": "RadioGroup",
+		"size": "25",
+		"type": "CheckBoxGroup",
 		"orientation": "horizontal"
-	}]
+	},
+	{
+	  "align" : "left",
+	  "color" : "0,0,0",
+	  "size" : "25",
+	  "text" : "账号角色数:",
+	  "type" : "Label"
+  },
+	  {
+	    "id" : "账号角色数",
+	    "list" : "1,2,3,4",
+	    "select" : "1",
+	    "size" : "25",
+	    "type" : "RadioGroup",
+	    "orientation" : "horizontal"
+    },
+		{
+	    "align" : "left",
+	    "color" : "0,0,0",
+	    "size" : "25",
+	    "text" : "是否膜拜城主",
+	    "type" : "Label"
+    },
+		{
+	    "id" : "膜拜城主",
+	    "list" : "不膜拜,膜拜",
+	    "select" : "1",
+	    "size" : "25",
+	    "type" : "RadioGroup",
+	    "orientation" : "horizontal"
+    },
+		{
+	    "id" : "降妖除魔和通天塔",
+	    "list" : "降妖除魔和通天塔",
+	    "select" : "0",
+	    "size" : "25",
+	    "type" : "CheckBoxGroup",
+	    "orientation" : "horizontal"
+    },
+		{
+	    "id" : "未知暗殿刷boss",
+	    "list" : "未知暗殿刷boss",
+	    "select" : "0",
+	    "size" : "25",
+	    "type" : "CheckBoxGroup",
+	    "orientation" : "horizontal"
+    }
+	]
 }

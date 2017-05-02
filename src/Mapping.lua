@@ -73,6 +73,10 @@ function Mapping:AddPages( ... )
           self.pages[i][self.parcase[key]] = value
         end
       else
+--				if _debug then
+--					sysLog("self.parcase[key]="..self.parcase[key])
+--					sysLog("value="..type(value))
+--				end
         self.pages[i][self.parcase[key]] = value
       end
     end
@@ -83,7 +87,11 @@ function Mapping:AddPages( ... )
     self.pages[i]["action_par"] = self.pages[i]["action_par"] or false
     self.pages[i]["ending_par"] = self.pages[i]["ending_par"] or false
     if self.pages[i]["action_par"] then
-      self.pages[i]["action"] = self.pages[i]["action"] or self.basefn.click
+--			if not self.pages[i]["action"] and type(self.pages[i]["action"])=="function" then
+--				--自定义的action方法
+--			else
+				self.pages[i]["action"] = self.pages[i]["action"] or self.basefn.click
+--			end
     end
     self.pages[i]["defaultfuzzy"] = self.defaultfuzzy
     self.pages[i]["defaultoffset"] = self.defaultoffset
@@ -108,16 +116,16 @@ function Mapping:Run()
   --abnormal为检测异常的表,checkout记录每次是否检查到页面
   -- local abnormal,checkout = {pages={},normal = false,u.errornum = 0}
   self.finished = false
+	local runCount = 重复超时次数--50次没找到就跳过
   while not self.finished do
-	
-		mSleep(500)--以免占用cpu过高
+--		runCount= runCount-1
+		mSleep(1000-delay)--以免占用cpu过高
     keepScreen(true)
     for i,page in ipairs(self.pages) do
 			if _debug then
 				sysLog("pre当前操作："..page.pagename)
 				x, y = findMultiColorInRegionFuzzy(page.check_par[1],page.check_par[2],page.check_par[3],page.check_par[4],page.check_par[5],page.check_par[6],page.check_par[7])
 				sysLog(x.."-"..y)
-				sysLog(page.check_par[1]..","..page.check_par[2]..","..page.check_par[3]..","..page.check_par[4]..","..page.check_par[5]..","..page.check_par[6]..","..page.check_par[7])
 			end
 			
 			if page:check(page.check_par) then
@@ -133,14 +141,25 @@ function Mapping:Run()
 					--显示当前操作
 					showTip("当前操作："..page.pagename)
           if page.action_par then
-						
             if type(page.action_par)=="function" then
               page.action_par()
+						elseif type(page.action)=="string" then
+							page.action=self.basefn[page.action]
+							page:action(page.action_par)
             else
               page:action(page.action_par) 
             end
           elseif page.action=="searchTap" then
-							page:action(page.check_par)
+						if _debug then
+							sysLog("page.check_par="..#page.check_par)
+							sysLog("page.check_par="..page.check_par[1])
+						end
+            page.action=self.basefn[page.action]
+						page:action(page.check_par)
+          elseif page.action=="finish" then
+            --这种情况，只适用于当前索引已经结束，执行准备下一个索引的情况
+              self.finished =true--这个索引结束
+					
 					else 
             page:action() 
           end
@@ -157,6 +176,9 @@ function Mapping:Run()
           else
             page:ending()
           end
+					if type(page.ending_par)=="string" and page.ending_par=="finish" then
+							self.finished =true--这个索引结束
+					end
         end
 --        break
       end
@@ -168,6 +190,9 @@ function Mapping:Run()
     keepScreen(false)
     -- 检查是否有错误页面出现
     Mapping:CommonCode()
+--		if runCount<=0 then
+--			return false--runCount次都没有找到
+--		end
     -- if checkout then
     --     abnormal = self:abnormal(abnormal)
     --     if abnormal then return false end
